@@ -16,7 +16,8 @@ if [ ${BASH_VERSINFO[0]} -lt 4 ]; then
     exit 1
 fi
 
-MH_HOME="$(dirname $(readlink -f $0))/.."
+#MH_HOME="$(dirname $(readlink -f $0))/.."
+MH_HOME="$(dirname $0)/.."
 
 function mh_print {
     echo "myHadoop: $@"
@@ -117,12 +118,12 @@ elif [ "z$RESOURCE_MGR" == "zslurm" ]; then
 fi
 
 ### Parse arguments
-args=`getopt n:p:c:s:h:i:? $*`
-if test $? != 0
-then
-    print_usage
-    exit 1
-fi
+#args=`getopt n:p:c:s:h:i:? $*`
+#if test $? != 0
+#then
+#    print_usage
+#    exit 1
+#fi
 set -- $args
 for i
 do
@@ -217,7 +218,8 @@ mh_print "Designating $MASTER_NODE as master node (namenode, secondary namenode,
 echo $MASTER_NODE > $HADOOP_CONF_DIR/masters
 
 ### Make every node in the nodefile a slave
-print_nodelist | awk '{print $1}' | sort -u | head -n $NODES > $HADOOP_CONF_DIR/slaves
+let NODES=$NODES-1
+print_nodelist | awk '{print $1}' | sort -u | tail -n $NODES > $HADOOP_CONF_DIR/slaves
 mh_print "The following nodes will be slaves (datanode, tasktracer):"
 cat $HADOOP_CONF_DIR/slaves
 

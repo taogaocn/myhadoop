@@ -6,25 +6,25 @@
 #   Glenn K. Lockwood, San Diego Supercomputer Center            February 2014
 ################################################################################
 
-### Make sure HADOOP_CONF_DIR is set
-if [ "z$HADOOP_CONF_DIR " == "z" ]; then
-    echo 'You must set $HADOOP_CONF_DIR so we know what to shut down.' >&2
+### Make sure SPARK_CONF_DIR is set
+if [ "z$SPARK_CONF_DIR " == "z" ]; then
+    echo 'You must set $SPARK_CONF_DIR so we know what to shut down.' >&2
     exit 1
 fi
 
-if [ -f $HADOOP_CONF_DIR/myhadoop.conf ]; then
-    source $HADOOP_CONF_DIR/myhadoop.conf || exit 1
-else
-    echo "myhadoop.conf not found in \$HADOOP_CONF_DIR.  Aborting." >&2
-    exit 1
-fi
+#if [ -f $SPARK_CONF_DIR/myhadoop.conf ]; then
+#    source $SPARK_CONF_DIR/myhadoop.conf || exit 1
+#else
+#    echo "myhadoop.conf not found in \$SPARK_CONF_DIR.  Aborting." >&2
+#    exit 1
+#fi
 
 ### Copy the logs from the Hadoop cluster back for post-mortem
-echo "Copying Hadoop logs back to $HADOOP_CONF_DIR/logs..."
-cp -Lvr ${config_subs[HADOOP_LOG_DIR]} $HADOOP_CONF_DIR/logs
+#echo "Copying Hadoop logs back to $SPARK_CONF_DIR/logs..."
+#cp -Lvr ${config_subs[SPARK_LOG_DIR]} $SPARK_CONF_DIR/logs
 
 ### Clean up all the garbage from the Hadoop job
-for node in $(cat $HADOOP_CONF_DIR/slaves $HADOOP_CONF_DIR/masters | sort -u | head -n $NODES)
+for node in $(cat $SPARK_CONF_DIR/slaves $SPARK_CONF_DIR/masters | sort -u | head -n $NODES)
 do
     rmdirs=""
     rmlinks=""

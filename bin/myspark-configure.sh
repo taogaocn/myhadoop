@@ -109,7 +109,7 @@ if [ "z$SPARK_HOME" != "z" ]; then
   mh_print " "
 
   mkdir -p $SPARK_CONF_DIR
-  cp $SPARK_HOME/conf/spark-defaults.conf $SPARK_CONF_DIR/
+  cp $SPARK_HOME/conf/* $SPARK_CONF_DIR/
   #cp $HADOOP_CONF_DIR/slaves $SPARK_CONF_DIR/slaves
 
   cat <<EOF >> $SPARK_CONF_DIR/spark-env.sh
